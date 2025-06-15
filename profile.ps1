@@ -1,15 +1,17 @@
-# profile.ps1
+# 🧠 تحميل oh-my-posh
+Import-Module oh-my-posh
 
-# تحميل oh-my-posh (لو مش متثبت)
-if (-not (Get-Command oh-my-posh -ErrorAction SilentlyContinue)) {
-    Install-Module oh-my-posh -Scope CurrentUser -Force
+# 🎨 تطبيق ثيم jandedobbeleer (من ضمن الثيمات الجاهزة)
+oh-my-posh init pwsh --config "$(Get-PoshThemesPath)\jandedobbeleer.omp.json" | Invoke-Expression
+
+# 🔍 تحسين تجربة الكتابة في PowerShell
+Set-PSReadLineOption -PredictionSource History
+Set-PSReadLineOption -EditMode Windows
+Set-PSReadLineOption -Colors @{
+    "Prediction" = [ConsoleColor]::DarkGray
 }
 
-# تحميل theme
-$theme = "$env:POSH_THEMES_PATH\jandedobbeleer.omp.json"
-if (-not (Test-Path $theme)) {
-    oh-my-posh get themes --destination "$env:POSH_THEMES_PATH"
+# 📁 إظهار اسم الجهاز والمجلد الحالي بشكل واضح
+function prompt {
+    "$PWD > "
 }
-
-# تشغيل oh-my-posh
-oh-my-posh init pwsh --config $theme | Invoke-Expression
